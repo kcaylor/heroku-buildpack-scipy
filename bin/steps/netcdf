@@ -31,5 +31,7 @@ if (pip-grep -s requirements.txt netcdf &> /dev/null) then
         mkdir -p .heroku/vendor/netcdf
         curl $VENDORED_NETCDF -s | tar zxv -C .heroku/vendor/netcdf &> /dev/null
         export LIBNETCDF=$(pwd)/vendor/netcdf/lib
-                
+    fi
+fi
+
 

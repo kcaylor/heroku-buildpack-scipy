@@ -33,5 +33,9 @@ if (pip-grep -s requirements.txt hpy5 &> /dev/null) then
         curl $VENDORED_HDF -s | tar zxv -C .heroku/vendor/hdf5 &> /dev/null
         export LIBHDF=$(pwd)/vendor/lib/hdr5
         export HD5_DIR=$(pwd)/vendor/lib/hdf5
+    fi
+
+fi
+
                 
 
