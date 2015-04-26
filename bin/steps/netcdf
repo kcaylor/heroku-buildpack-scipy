@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# This script serves as the NetCDF build step of the
+# [**Python Buildpack**](https://github.com/heroku/heroku-buildpack-python) 
+# compiler. 
+# 
+# A [buildpack](http://devcenter.heroku.com/articles/buildpacks) is an 
+# adapter between a Python application and Heroku's runtime.
+#
+# This script is invoked by [`bin/compile`](/).
+
+PACK_DIR=$PWD
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+# The location of the pre-compiled hdf binary.
+VENDORED_HDF="http://pat-public.s3.amazonaws.com/hdf.tgz"
+VENDORED_CDF="http://pat-public.s3.amazonaws.com/netcdf.tgz"
+
+# Syntax sugar.
+source $BIN_DIR/utils
+
+# If netcdf exists within requirements, use vendored libmemcached.
+if (pip-grep -s requirements.txt netcdf &> /dev/null) then
+
+    if [ -d ".heroku/vendor/lib/netcdf" ]; then
+        export LIBNETCDF=$(pwd)/vendor
+        export LIBHDF=$(pwd)/vendor
+    else
+        echo "-----> Noticed netcdf. Bootstrapping netcdf."
+        mkdir -p .heroku/vendor
+        curl $VENDORED_NETCDF -s | tar zxv -C .heroku/vendor &> /dev/null
+        curl $VENDORED_HDF -s | tar zxv -C .heroku/vendor &> /dev/null
+        export LIBNETCDF=$(pwd)/vendor/lib
+        export LIBHDF=$(pwd)/vendor/lib
+                
+
