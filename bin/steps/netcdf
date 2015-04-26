@@ -13,9 +13,9 @@ PACK_DIR=$PWD
 BUILD_DIR=$1
 CACHE_DIR=$2
 
+echo "Checking about netcdf..."
 # The location of the pre-compiled hdf binary.
-VENDORED_HDF="http://pat-public.s3.amazonaws.com/hdf.tgz"
-VENDORED_CDF="http://pat-public.s3.amazonaws.com/netcdf.tgz"
+VENDORED_NETCDF="http://pat-public.s3.amazonaws.com/netcdf.tgz"
 
 # Syntax sugar.
 source $BIN_DIR/utils
@@ -24,14 +24,12 @@ source $BIN_DIR/utils
 if (pip-grep -s requirements.txt netcdf &> /dev/null) then
 
     if [ -d ".heroku/vendor/lib/netcdf" ]; then
-        export LIBNETCDF=$(pwd)/vendor
-        export LIBHDF=$(pwd)/vendor
+        echo "Found netcdf!"
+        export LIBNETCDF=$(pwd)/vendor/netcdf
     else
         echo "-----> Noticed netcdf. Bootstrapping netcdf."
-        mkdir -p .heroku/vendor
-        curl $VENDORED_NETCDF -s | tar zxv -C .heroku/vendor &> /dev/null
-        curl $VENDORED_HDF -s | tar zxv -C .heroku/vendor &> /dev/null
-        export LIBNETCDF=$(pwd)/vendor/lib
-        export LIBHDF=$(pwd)/vendor/lib
+        mkdir -p .heroku/vendor/netcdf
+        curl $VENDORED_NETCDF -s | tar zxv -C .heroku/vendor/netcdf &> /dev/null
+        export LIBNETCDF=$(pwd)/vendor/netcdf/lib
                 
 

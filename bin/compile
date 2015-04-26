@@ -169,6 +169,13 @@ source $BIN_DIR/steps/cryptography
 # Numpy/scipy support
 source $BIN_DIR/steps/numpy-scipy
 
+# hdf5 support
+source $BIN_DIR/steps/hdf5
+
+# netcdf support
+source $BIN_DIR/steps/netcdf
+
+
 # Install dependencies with Pip.
 sub-env $BIN_DIR/steps/pip-install
 
